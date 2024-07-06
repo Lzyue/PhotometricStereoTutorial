@@ -93,7 +93,7 @@ print("done.")
 
 
 ### 运行结果
-
+Mean angular error [deg]:  1.2886738657873065
 图片：estimated_normalmap.png
 
 
