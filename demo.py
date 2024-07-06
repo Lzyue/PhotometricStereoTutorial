@@ -4,6 +4,7 @@ import numpy as np
 import time
 from rps import PS
 import psutil
+import matplotlib.pyplot as plt
 
 
 DATA_FOLDERNAME = './data/bunny/bunny_lambert/'    # Lambertian diffuse with cast shadow
@@ -30,5 +31,18 @@ N_gt = psutil.load_normalmap_from_npy(filename=GT_NORMAL_FILENAME)    # read out
 N_gt = np.reshape(N_gt, (rps.height*rps.width, 3))    # reshape as a normal array (p \times 3)
 angular_err = psutil.evaluate_angular_error(N_gt, rps.N, rps.background_ind)    # compute angular error
 print("Mean angular error [deg]: ", np.mean(angular_err[:]))
-psutil.disp_normalmap(normal=rps.N, height=rps.height, width=rps.width)
+
+# 使用 matplotlib 保存和显示法线图
+N = np.reshape(rps.N, (rps.height, rps.width, 3))
+N = (N - np.min(N)) / (np.max(N) - np.min(N)) * 255.0
+N = N.astype(np.uint8)
+
+# 显示图像
+plt.imshow(N)
+plt.title('normal map')
+plt.show()
+
+# 保存图像
+plt.imsave('estimated_normalmap.png', N)
+
 print("done.")

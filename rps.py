@@ -113,6 +113,14 @@ class PS(object):
 
 
         #############################################
+        # Step 1: solve Ax = b
+        # A is self.L.T, b is self.M.T
+        A = self.L.T
+        b = self.M.T
+        N, residuals, rank, s = np.linalg.lstsq(A, b, rcond=None)
+
+        # Step 2: Normalize the normal vectors
+        self.N = normalize(N.T, axis=1)
 
         if self.background_ind is not None:
             for i in range(self.N.shape[1]):
